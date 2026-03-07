@@ -4,75 +4,89 @@ import { useTelegram } from '@/components/TelegramProvider';
 import Link from 'next/link';
 import { useCallback, useState, useEffect } from 'react';
 
-const INITIAL_NOTIFICATIONS = [
-    {
-        id: 1,
-        title: 'Welcome Package',
-        desc: 'You received 500 bonus points!',
-        time: '2m ago',
-        icon: '🎁',
-        accent: 'purple',
-        unread: true,
-    },
-    {
-        id: 2,
-        title: 'Daily Streak',
-        desc: 'Day 3! Keep going to earn more.',
-        time: '4h ago',
-        icon: '🔥',
-        accent: 'orange',
-        unread: false,
-    },
-    {
-        id: 3,
-        title: 'System Update',
-        desc: 'Mini App v2.4 is now live.',
-        time: '1d ago',
-        icon: '⚙️',
-        accent: 'blue',
-        unread: false,
-    },
-    {
-        id: 4,
-        title: 'New Event',
-        desc: 'Join the Summer Challenge now!',
-        time: '2d ago',
-        icon: '⭐',
-        accent: 'pink',
-        unread: false,
-    },
-    {
-        id: 5,
-        title: 'Security Alert',
-        desc: 'New login detected from Chrome.',
-        time: '3d ago',
-        icon: '🔐',
-        accent: 'teal',
-        unread: false,
-    },
-    {
-        id: 6,
-        title: 'Friend Request',
-        desc: 'Alex wants to connect with you.',
-        time: '5d ago',
-        icon: '👋',
-        accent: 'green',
-        unread: false,
-    },
-];
-
 export default function NotificationsPage() {
     const { isTelegram } = useTelegram();
-    const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
+    const [notifications, setNotifications] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedNotif, setSelectedNotif] = useState<any>(null);
     const [formData, setFormData] = useState({ title: '', desc: '', icon: '🔔' });
 
-    useEffect(() => {
-        console.log('Notifications length:', notifications.length);
-    }, [notifications]);
+useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const response = await new Promise<any[]>((resolve) => {
+                    setTimeout(() => {
+                        resolve([
+                            {
+                                id: 1,
+                                title: 'Welcome Package',
+                                desc: 'You received 500 bonus points!',
+                                time: '2m ago',
+                                icon: '🎁',
+                                accent: 'purple',
+                                unread: true,
+                            },
+                            {
+                                id: 2,
+                                title: 'Daily Streak',
+                                desc: 'Day 3! Keep going to earn more.',
+                                time: '4h ago',
+                                icon: '🔥',
+                                accent: 'orange',
+                                unread: false,
+                            },
+                            {
+                                id: 3,
+                                title: 'System Update',
+                                desc: 'Mini App v2.4 is now live.',
+                                time: '1d ago',
+                                icon: '⚙️',
+                                accent: 'blue',
+                                unread: false,
+                            },
+                            {
+                                id: 4,
+                                title: 'New Event',
+                                desc: 'Join the Summer Challenge now!',
+                                time: '2d ago',
+                                icon: '⭐',
+                                accent: 'pink',
+                                unread: false,
+                            },
+                            {
+                                id: 5,
+                                title: 'Security Alert',
+                                desc: 'New login detected from Chrome.',
+                                time: '3d ago',
+                                icon: '🔐',
+                                accent: 'teal',
+                                unread: false,
+                            },
+                            {
+                                id: 6,
+                                title: 'Friend Request',
+                                desc: 'Alex wants to connect with you.',
+                                time: '5d ago',
+                                icon: '👋',
+                                accent: 'green',
+                                unread: false,
+                            },
+                        ]);
+                    }, 1000);
+                });
+                setNotifications(response);
+            } catch (error) {
+                console.error('Failed to fetch notifications', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchNotifications();
+    }, []);
 
     function showToast(message: string) {
         setToast(message);
@@ -157,7 +171,16 @@ export default function NotificationsPage() {
                         + Add Notification
                     </button>
                 </div>
-                {notifications.length > 0 ? (
+                {loading ? (
+                    <div className="fade-in delay-2" style={{
+                        textAlign: 'center',
+                        padding: '40px 20px',
+                        color: 'var(--tg-hint-color)'
+                    }}>
+                        <div style={{ fontSize: '40px', marginBottom: '16px' }}>⏳</div>
+                        <p>Loading notifications...</p>
+                    </div>
+                ) : notifications.length > 0 ? (
                     <>
                         <div className="cards-grid">
                             {notifications.map((notif, i) => (
@@ -179,7 +202,7 @@ export default function NotificationsPage() {
                                                 height: '8px',
                                                 background: '#ff4757',
                                                 borderRadius: '50%',
-                                                boxShadow: '0 0 10px #ff4757'
+                                                boxShadow: '0 0 10px #ff4759'
                                             }}
                                         />
                                     )}
