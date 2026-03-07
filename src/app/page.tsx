@@ -137,6 +137,16 @@ export default function Home() {
           })}
         </div>
 
+        {/* Game Link */}
+        <p className="section-label fade-in delay-7">Mini Games</p>
+        <Link href="/tiktaktoe" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+          <div className="card purple fade-in delay-8" style={{ cursor: 'pointer' }}>
+            <div className="card-icon">🎮</div>
+            <div className="card-title">Tic Tac Toe</div>
+            <div className="card-desc">Play against a friend or CPU</div>
+          </div>
+        </Link>
+
         {/* Info */}
         <p className="section-label fade-in delay-7">App Info</p>
         <div className="info-list fade-in delay-8">
