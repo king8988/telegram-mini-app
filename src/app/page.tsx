@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useTelegram } from '@/components/TelegramProvider';
 import { useTheme } from '@/components/ThemeProvider';
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
-import { Heart, Moon, Sun } from 'lucide-react';
+import { Heart, Moon, Sun, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PHOTOS = [
   "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1470&auto=format&fit=crop",
@@ -24,14 +24,18 @@ export default function Home() {
   const rotate = useTransform(x, [-150, 0, 150], [-10, 0, 10]);
   const opacity = useTransform(x, [-150, 0, 150], [0.5, 1, 0.5]);
 
+  const handleNextCard = () => {
+    setCards((prev) => {
+      const newCards = [...prev];
+      const removed = newCards.shift();
+      if (removed) newCards.push(removed);
+      return newCards;
+    });
+  };
+
   const handleDragEnd = (event: any, info: any) => {
     if (Math.abs(info.offset.x) > 100) {
-      setCards((prev) => {
-        const newCards = [...prev];
-        const removed = newCards.shift();
-        if (removed) newCards.push(removed);
-        return newCards;
-      });
+      handleNextCard();
     }
   };
 
@@ -139,6 +143,17 @@ export default function Home() {
 
         {/* Couples Interactive Photo Slider - Deck of Cards */}
         <div className="fade-in delay-2" style={{ position: 'relative', height: '360px', marginTop: '32px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+          {/* Deck Controls - Left Arrow */}
+          <motion.button
+            onClick={handleNextCard}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            style={{ position: 'absolute', left: '-12px', zIndex: 10, width: '40px', height: '40px', borderRadius: '50%', background: 'var(--tg-section-bg-color)', border: `1px solid ${theme === 'pearl-white' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)'}`, color: 'var(--tg-text-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+          >
+            <ChevronLeft size={20} />
+          </motion.button>
+
           <AnimatePresence>
             {cards.map((src, index) => {
               const isTop = index === cards.length - 1;
@@ -154,11 +169,11 @@ export default function Home() {
                     opacity: isTop ? opacity : 1 - ((cards.length - 1 - index) * 0.2),
                     position: 'absolute',
                     width: '100%',
-                    maxWidth: '320px',
-                    height: '320px',
+                    maxWidth: '280px',
+                    height: '340px',
                     borderRadius: '24px',
                     overflow: 'hidden',
-                    boxShadow: isTop ? '0 20px 40px rgba(0,0,0,0.2)' : '0 10px 20px rgba(0,0,0,0.1)',
+                    boxShadow: isTop ? '0 30px 60px rgba(0,0,0,0.3)' : '0 10px 20px rgba(0,0,0,0.1)',
                     border: `1px solid ${theme === 'pearl-white' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)'}`,
                     cursor: isTop ? 'grab' : 'default',
                     zIndex: index
@@ -189,6 +204,16 @@ export default function Home() {
               );
             })}
           </AnimatePresence>
+
+          {/* Deck Controls - Right Arrow */}
+          <motion.button
+            onClick={handleNextCard}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            style={{ position: 'absolute', right: '-12px', zIndex: 10, width: '40px', height: '40px', borderRadius: '50%', background: 'var(--tg-section-bg-color)', border: `1px solid ${theme === 'pearl-white' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)'}`, color: 'var(--tg-text-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+          >
+            <ChevronRight size={20} />
+          </motion.button>
         </div>
 
         {/* Action Cards */}
