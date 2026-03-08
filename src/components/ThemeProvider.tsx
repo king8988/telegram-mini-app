@@ -2,11 +2,12 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'midnight' | 'emerald' | 'cyberpunk' | 'classic-dark';
+type Theme = 'midnight' | 'emerald' | 'cyberpunk' | 'classic-dark' | 'pearl-white';
 
 interface ThemeContextType {
     theme: Theme;
     setTheme: (theme: Theme) => void;
+    toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -18,9 +19,14 @@ export const themes: { id: Theme; name: string; colors: { primary: string; bg: s
         colors: { primary: '#6c5ce7', bg: '#0f0f1a', accent: '#a29bfe' }
     },
     {
+        id: 'pearl-white',
+        name: 'Pearl White',
+        colors: { primary: '#D4AF37', bg: '#FDFBF7', accent: '#B78F82' }
+    },
+    {
         id: 'emerald',
         name: 'Emerald Forest',
-        colors: { primary: '#00b894', bg: '#0b1a13', accent: '#55efc4' }
+        colors: { primary: '#D4AF37', bg: '#0D1F15', accent: '#E8D2A6' }
     },
     {
         id: 'cyberpunk',
@@ -35,7 +41,7 @@ export const themes: { id: Theme; name: string; colors: { primary: string; bg: s
 ];
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [theme, setTheme] = useState<Theme>('midnight');
+    const [theme, setTheme] = useState<Theme>('emerald');
 
     // Load theme from localStorage on mount
     useEffect(() => {
@@ -63,9 +69,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             if (theme === 'midnight') {
                 root.style.setProperty('--tg-secondary-bg-color', '#1a1a2e');
                 root.style.setProperty('--tg-section-bg-color', '#16213e');
+            } else if (theme === 'pearl-white') {
+                root.style.setProperty('--tg-secondary-bg-color', '#F5F2EB');
+                root.style.setProperty('--tg-section-bg-color', '#FFFFFF');
+                root.style.setProperty('--tg-text-color', '#2C2A29');
+                root.style.setProperty('--tg-hint-color', '#8A847C');
+                root.style.setProperty('--tg-button-text-color', '#FFFFFF');
+                root.style.setProperty('--tg-header-bg-color', '#FDFBF7');
             } else if (theme === 'emerald') {
-                root.style.setProperty('--tg-secondary-bg-color', '#122b20');
-                root.style.setProperty('--tg-section-bg-color', '#1a3a2a');
+                root.style.setProperty('--tg-secondary-bg-color', '#122B1E');
+                root.style.setProperty('--tg-section-bg-color', '#163624');
+                root.style.setProperty('--tg-text-color', '#FDFBF7');
+                root.style.setProperty('--tg-hint-color', '#A4B8AD');
+                root.style.setProperty('--tg-button-text-color', '#0D1F15');
+                root.style.setProperty('--tg-header-bg-color', '#0D1F15');
             } else if (theme === 'cyberpunk') {
                 root.style.setProperty('--tg-secondary-bg-color', '#2e2e1a');
                 root.style.setProperty('--tg-section-bg-color', '#3e3e16');
@@ -78,8 +95,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     }, [theme]);
 
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'emerald' ? 'pearl-white' : 'emerald');
+    };
+
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
+        <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
             {children}
         </ThemeContext.Provider>
     );
