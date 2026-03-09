@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lavishly_Yours } from "next/font/google";
 import "./globals.css";
 import { TelegramProvider } from "@/components/TelegramProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -7,6 +7,12 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const lavishly = Lavishly_Yours({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-lavishly",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +41,7 @@ export default function RootLayout({
           defer
         />
       </head>
-      <body className={inter.variable}>
+      <body className={`${inter.variable} ${lavishly.variable}`}>
         <ThemeProvider>
           <TelegramProvider>{children}</TelegramProvider>
         </ThemeProvider>

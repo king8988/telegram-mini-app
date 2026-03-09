@@ -14,6 +14,8 @@ export const ActionCards = ({ showToast }: ActionCardsProps) => {
     (id: string, title: string) => {
       if (id === 'photo') {
         router.push('/upload');
+      } else if (id === 'wish') {
+        router.push('/wish');
       } else {
         showToast(`Opening ${title}... ✨`);
       }
@@ -23,7 +25,8 @@ export const ActionCards = ({ showToast }: ActionCardsProps) => {
 
   const cards = [
     { id: 'photo', title: 'Upload Photo', desc: 'Share your captured moments', icon: '📸', color: 'purple', delay: 4 },
-    { id: 'voice', title: 'Voice Blessing', desc: 'Record a message for us', icon: '🎤', color: 'blue', delay: 5 },
+    { id: 'wish', title: 'Add Your Wish', desc: 'Write a heartfelt note', icon: '✍️', color: 'pink', delay: 5 },
+    { id: 'voice', title: 'Voice Blessing', desc: 'Record a message for us', icon: '🎤', color: 'blue', delay: 6 },
   ];
 
   return (
