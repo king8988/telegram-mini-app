@@ -16,6 +16,8 @@ export const ActionCards = ({ showToast }: ActionCardsProps) => {
         router.push('/upload');
       } else if (id === 'wish') {
         router.push('/wish');
+      } else if (id === 'voice') {
+        router.push('/voice');
       } else {
         showToast(`Opening ${title}... ✨`);
       }
@@ -36,7 +38,7 @@ export const ActionCards = ({ showToast }: ActionCardsProps) => {
         {cards.map((card) => (
           <div
             key={card.id}
-            className={`card ${card.color} fade-in delay-${card.delay}`}
+            className={`card ${card.color} fade-in delay-${card.delay} ${card.id === 'voice' ? 'full-width' : ''}`}
             onClick={() => handleActionClick(card.id, card.title)}
             role="button"
             tabIndex={0}

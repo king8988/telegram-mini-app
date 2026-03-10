@@ -112,6 +112,7 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -275,10 +276,10 @@ a {
 
 .card {
   position: relative;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--tg-secondary-bg-color);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid color-mix(in srgb, var(--tg-text-color) 12%, transparent);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   cursor: pointer;
@@ -310,6 +311,10 @@ a {
 
 .card:active {
   transform: scale(0.98);
+}
+
+.card.full-width {
+  grid-column: span 2;
 }
 
 .card-icon {

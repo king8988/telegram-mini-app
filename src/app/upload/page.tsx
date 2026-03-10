@@ -8,6 +8,7 @@ import {
     CheckCircle2, Image as ImageIcon, Trash2, Camera,
 } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
+import { WeddingFooter } from '@/components/WeddingFooter';
 
 /* ── Quota ── */
 const MAX_UPLOADS = 15;
@@ -476,6 +477,7 @@ export default function UploadPage() {
                                             fontFamily: 'var(--font-sans)',
                                         }}
                                     ><ChevronRight size={16} /></button>
+                                    <WeddingFooter />
                                 </div>
                             )}
                         </>
